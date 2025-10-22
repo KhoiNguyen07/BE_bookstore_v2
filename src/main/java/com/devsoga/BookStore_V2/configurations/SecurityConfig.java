@@ -25,8 +25,8 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable()) //  Tắt CSRF cho API
             .authorizeHttpRequests(auth -> auth
-                // .requestMatchers("/**")
-                .anyRequest().permitAll()
+                .requestMatchers("/v1/api/account/**").permitAll()
+                .anyRequest().authenticated()
             )
             .formLogin(Customizer.withDefaults()); // hoặc cấu hình login riêng
 
