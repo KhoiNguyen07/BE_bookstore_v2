@@ -23,10 +23,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // 🚫 Tắt CSRF cho API
+            .csrf(csrf -> csrf.disable()) //  Tắt CSRF cho API
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/taikhoan/**", "/api/sanpham/**").permitAll() // cho phép login/register
-                .anyRequest().authenticated()
+                // .requestMatchers("/**")
+                .anyRequest().permitAll()
             )
             .formLogin(Customizer.withDefaults()); // hoặc cấu hình login riêng
 

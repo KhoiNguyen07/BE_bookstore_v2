@@ -5,14 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.time.LocalDateTime;
+ 
 
 @Entity(name = "comment")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentEntity {
+public class CommentEntity extends BaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -29,8 +29,7 @@ public class CommentEntity {
     @Column(name = "status")
     private Boolean status;
 
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_detail_code", referencedColumnName = "order_detail_code")

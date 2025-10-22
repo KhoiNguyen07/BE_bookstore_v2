@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -15,7 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountEntity {
+public class AccountEntity extends BaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -33,11 +32,13 @@ public class AccountEntity {
     @Column(name = "status")
     private Boolean status;
 
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
-    @Column(name = "updated_date")
-    private LocalDateTime updatedDate;
+    @Column(name = "email")
+    private String email;
+
+    
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_code", referencedColumnName = "role_code")

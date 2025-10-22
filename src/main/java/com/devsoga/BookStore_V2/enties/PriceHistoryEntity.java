@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PriceHistoryEntity {
+public class PriceHistoryEntity extends BaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -27,8 +27,7 @@ public class PriceHistoryEntity {
     @Column(name = "status")
     private Boolean status;
 
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    
 
     @Column(name = "end_date")
     private LocalDateTime endDate;
