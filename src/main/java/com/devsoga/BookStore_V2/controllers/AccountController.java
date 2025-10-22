@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.devsoga.BookStore_V2.dtos.requests.LoginRequest;
 import com.devsoga.BookStore_V2.dtos.requests.RegisterRequest;
 import com.devsoga.BookStore_V2.services.AccountService;
 import com.devsoga.BookStore_V2.payload.respone.BaseRespone;
@@ -19,7 +17,6 @@ import com.devsoga.BookStore_V2.payload.respone.BaseRespone;
 public class AccountController {
     @Autowired
     private AccountService accountService;
-
     
 
     @GetMapping("/{username}")
@@ -32,10 +29,4 @@ public class AccountController {
         return accountService.createAccount(request);
     }
 
-    @PostMapping("/login")
-    public BaseRespone loginAccount(@RequestBody LoginRequest request) {
-        return accountService.loginAccount(request);
-    }
-
-  
 }
