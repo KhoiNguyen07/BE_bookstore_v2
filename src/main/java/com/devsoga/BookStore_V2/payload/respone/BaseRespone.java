@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BaseRespone {
-    private int status;
+    private int statusCode;
     private String message;
     private Object data;
 }

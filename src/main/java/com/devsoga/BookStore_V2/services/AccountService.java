@@ -1,6 +1,7 @@
 package com.devsoga.BookStore_V2.services;
 
-import com.devsoga.BookStore_V2.dtos.requests.AccountRequest;
+import com.devsoga.BookStore_V2.dtos.requests.LoginRequest;
+import com.devsoga.BookStore_V2.dtos.requests.RegisterRequest;
 import com.devsoga.BookStore_V2.dtos.responses.AccountRespone;
 import com.devsoga.BookStore_V2.enties.AccountEntity;
 import com.devsoga.BookStore_V2.repositories.AccountRepository;
@@ -41,26 +42,20 @@ public class AccountService {
             dto.setEmail(acct.getEmail());
             dto.setRoleCode(acct.getRoleEntity() != null ? acct.getRoleEntity().getRoleCode() : null);
 
-            response.setStatus(200);
+            response.setStatusCode(200);
             response.setMessage("Account found");
             response.setData(dto);
         } else {
-            response.setStatus(404);
-            response.setMessage("Account not found");
-            response.setData(null);
+            throw new RuntimeException("Account not found");
         }
         return response;
     }
 
-    public BaseRespone createAccount(AccountRequest request) {
+    public BaseRespone createAccount(RegisterRequest request) {
         // check for duplicate username
         List<AccountEntity> existing = accountRepository.findByUsername(request.getUsername());
         if (existing != null && !existing.isEmpty()) {
-            BaseRespone resp = new BaseRespone();
-            resp.setStatus(409);
-            resp.setMessage("Username already exists");
-            resp.setData(null);
-            return resp;
+           throw new RuntimeException("Account already exists");
         }
         // create and save the account
         AccountEntity accountEntity = new AccountEntity();
@@ -78,7 +73,7 @@ public class AccountService {
         if (acctCode == null || acctCode.isBlank()) {
             long epoch = System.currentTimeMillis() / 1000L;
             int rnd = (int) (Math.random() * 900) + 100;
-            acctCode = "AC" + epoch + rnd;
+            acctCode = "AC_" + epoch + rnd;
         }
         accountEntity.setAccountCode(acctCode);
 
@@ -89,10 +84,35 @@ public class AccountService {
         }
         RoleEntity role = roleRepository.findByRoleCode(roleCode).orElse(null);
         accountEntity.setRoleEntity(role);
-
         AccountEntity saved = accountRepository.save(accountEntity);
 
-        // return the same BaseRespone shape as getAccountDetails by fetching the saved account
         return getAccountDetails(saved.getUsername());
+    }
+
+    public BaseRespone loginAccount(LoginRequest request) {
+        // Implementation to handle account login
+        // This is a placeholder implementation
+        List<AccountEntity> listAccount = accountRepository.findByUsername(request.getUsername());
+
+        if (listAccount.size() > 0) {
+            AccountEntity acct = listAccount.get(0);
+            if (passwordEncoder.matches(request.getPassword(), acct.getPassword())) {
+                AccountRespone dto = new AccountRespone();
+                dto.setAccountCode(acct.getAccountCode());
+                dto.setUsername(acct.getUsername());
+                dto.setEmail(acct.getEmail());
+                dto.setRoleCode(acct.getRoleEntity() != null ? acct.getRoleEntity().getRoleCode() : null);
+
+                BaseRespone response = new BaseRespone();
+                response.setStatusCode(200);
+                response.setMessage("Login successful");
+                response.setData(dto);
+                return response;
+            } else {
+                throw new RuntimeException("Invalid password");
+            }
+        } else {
+            throw new RuntimeException("Account not found");
+        }
     }
 }
