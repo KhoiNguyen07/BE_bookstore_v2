@@ -86,33 +86,10 @@ public class AccountService {
         accountEntity.setRoleEntity(role);
         AccountEntity saved = accountRepository.save(accountEntity);
 
-        return getAccountDetails(saved.getUsername());
-    }
-
-    public BaseRespone loginAccount(LoginRequest request) {
-        // Implementation to handle account login
-        // This is a placeholder implementation
-        List<AccountEntity> listAccount = accountRepository.findByUsername(request.getUsername());
-
-        if (listAccount.size() > 0) {
-            AccountEntity acct = listAccount.get(0);
-            if (passwordEncoder.matches(request.getPassword(), acct.getPassword())) {
-                AccountRespone dto = new AccountRespone();
-                dto.setAccountCode(acct.getAccountCode());
-                dto.setUsername(acct.getUsername());
-                dto.setEmail(acct.getEmail());
-                dto.setRoleCode(acct.getRoleEntity() != null ? acct.getRoleEntity().getRoleCode() : null);
-
-                BaseRespone response = new BaseRespone();
-                response.setStatusCode(200);
-                response.setMessage("Login successful");
-                response.setData(dto);
-                return response;
-            } else {
-                throw new RuntimeException("Invalid password");
-            }
-        } else {
-            throw new RuntimeException("Account not found");
-        }
+        BaseRespone resp = getAccountDetails(saved.getUsername());
+        // override message and status for creation
+        resp.setStatusCode(201);
+        resp.setMessage("Account created successfully");
+        return resp;
     }
 }

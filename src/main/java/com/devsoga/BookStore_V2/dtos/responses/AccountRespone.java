@@ -10,4 +10,6 @@ public class AccountRespone {
     private String username;
     private String email;
     private String roleCode;
+    private String accessToken;
+    private String refreshToken;
 }   
