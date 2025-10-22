@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SupplierEntity {
+public class SupplierEntity extends BaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -35,9 +35,6 @@ public class SupplierEntity {
 
     @Column(name = "status")
     private Boolean status;
-
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
 
     @Column(name = "end_date")
     private LocalDateTime endDate;

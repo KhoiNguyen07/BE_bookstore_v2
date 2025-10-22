@@ -4,7 +4,9 @@
 CREATE TABLE IF NOT EXISTS `role` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `role_code` VARCHAR(50) UNIQUE NOT NULL,
-    `role_name` VARCHAR(255)
+    `role_name` VARCHAR(255),
+    `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS `account` (
@@ -28,7 +30,9 @@ CREATE TABLE IF NOT EXISTS `customer_type` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `customer_type_code` VARCHAR(50) UNIQUE NOT NULL,
     `customer_type_name` VARCHAR(255),
-    `description` VARCHAR(255)
+    `description` VARCHAR(255),
+    `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS `customer` (
@@ -74,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `supplier` (
     `email` VARCHAR(255),
     `status` BOOLEAN DEFAULT TRUE,
     `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `ended_date` TIMESTAMP
+    `updated_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- =========================
@@ -84,7 +88,9 @@ CREATE TABLE IF NOT EXISTS `promotion_type` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `promotion_type_code` VARCHAR(50) UNIQUE NOT NULL,
     `promotion_type_name` VARCHAR(255),
-    `description` VARCHAR(255)
+    `description` VARCHAR(255),
+    `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS `promotion` (
@@ -95,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `promotion` (
     `promotion_type_code` VARCHAR(50),
     `status` BOOLEAN DEFAULT TRUE,
     `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `ended_date` TIMESTAMP,
+    `updated_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`promotion_type_code`) REFERENCES `promotion_type`(`promotion_type_code`)
 );
 
@@ -106,7 +112,9 @@ CREATE TABLE IF NOT EXISTS `product_category` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `category_code` VARCHAR(50) UNIQUE NOT NULL,
     `category_name` VARCHAR(255),
-    `description` VARCHAR(255)
+    `description` VARCHAR(255),
+    `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS `product` (
@@ -125,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `product` (
 );
 
 -- =========================
--- ORDER & ORDER DETAIL (trước COMMENT)
+-- ORDER & ORDER DETAIL
 -- =========================
 CREATE TABLE IF NOT EXISTS `order` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -140,6 +148,7 @@ CREATE TABLE IF NOT EXISTS `order` (
     `employee_code` VARCHAR(50),
     `promotion_code` VARCHAR(50),
     `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`customer_code`) REFERENCES `customer`(`customer_code`),
     FOREIGN KEY (`employee_code`) REFERENCES `employee`(`employee_code`),
     FOREIGN KEY (`promotion_code`) REFERENCES `promotion`(`promotion_code`)
@@ -153,12 +162,14 @@ CREATE TABLE IF NOT EXISTS `order_detail` (
     `total_amount` DECIMAL(20,2),
     `product_code` VARCHAR(50),
     `order_code` VARCHAR(50),
+    `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`product_code`) REFERENCES `product`(`product_code`),
     FOREIGN KEY (`order_code`) REFERENCES `order`(`order_code`) ON DELETE CASCADE
 );
 
 -- =========================
--- COMMENT (phải tạo SAU order_detail)
+-- COMMENT
 -- =========================
 CREATE TABLE IF NOT EXISTS `comment` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -168,11 +179,12 @@ CREATE TABLE IF NOT EXISTS `comment` (
     `status` BOOLEAN DEFAULT TRUE,
     `order_detail_code` VARCHAR(50),
     `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`order_detail_code`) REFERENCES `order_detail`(`order_detail_code`) ON DELETE CASCADE
 );
 
 -- =========================
--- CART & FAVORITE (sau khi có customer/product)
+-- CART & FAVORITE
 -- =========================
 CREATE TABLE IF NOT EXISTS `cart` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -180,6 +192,8 @@ CREATE TABLE IF NOT EXISTS `cart` (
     `total_amount` DECIMAL(20,2),
     `product_code` VARCHAR(50),
     `customer_code` VARCHAR(50),
+    `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`product_code`) REFERENCES `product`(`product_code`) ON DELETE CASCADE,
     FOREIGN KEY (`customer_code`) REFERENCES `customer`(`customer_code`) ON DELETE CASCADE
 );
@@ -188,6 +202,8 @@ CREATE TABLE IF NOT EXISTS `favorite` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `product_code` VARCHAR(50),
     `customer_code` VARCHAR(50),
+    `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`product_code`) REFERENCES `product`(`product_code`) ON DELETE CASCADE,
     FOREIGN KEY (`customer_code`) REFERENCES `customer`(`customer_code`) ON DELETE CASCADE
 );
@@ -205,6 +221,7 @@ CREATE TABLE IF NOT EXISTS `import_invoice` (
     `employee_code` VARCHAR(50),
     `supplier_code` VARCHAR(50),
     `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`employee_code`) REFERENCES `employee`(`employee_code`),
     FOREIGN KEY (`supplier_code`) REFERENCES `supplier`(`supplier_code`)
 );
@@ -217,6 +234,8 @@ CREATE TABLE IF NOT EXISTS `import_invoice_detail` (
     `total_amount` DECIMAL(20,2),
     `product_code` VARCHAR(50),
     `import_invoice_code` VARCHAR(50),
+    `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`product_code`) REFERENCES `product`(`product_code`),
     FOREIGN KEY (`import_invoice_code`) REFERENCES `import_invoice`(`import_invoice_code`) ON DELETE CASCADE
 );
@@ -229,6 +248,7 @@ CREATE TABLE IF NOT EXISTS `inventory` (
     `product_code` VARCHAR(50),
     `import_invoice_detail_code` VARCHAR(50),
     `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`product_code`) REFERENCES `product`(`product_code`),
     FOREIGN KEY (`import_invoice_detail_code`) REFERENCES `import_invoice_detail`(`import_invoice_detail_code`)
 );
@@ -241,13 +261,13 @@ CREATE TABLE IF NOT EXISTS `price_history` (
     `product_code` VARCHAR(50),
     `import_invoice_detail_code` VARCHAR(50),
     `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `ended_date` TIMESTAMP,
+    `updated_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`product_code`) REFERENCES `product`(`product_code`),
     FOREIGN KEY (`import_invoice_detail_code`) REFERENCES `import_invoice_detail`(`import_invoice_detail_code`)
 );
 
 -- =========================
--- RETURN / EXCHANGE (cuối cùng)
+-- RETURN / EXCHANGE
 -- =========================
 CREATE TABLE IF NOT EXISTS `return_exchange` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -256,5 +276,6 @@ CREATE TABLE IF NOT EXISTS `return_exchange` (
     `status` BOOLEAN DEFAULT TRUE,
     `order_code` VARCHAR(50),
     `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`order_code`) REFERENCES `order`(`order_code`) ON DELETE CASCADE
 );

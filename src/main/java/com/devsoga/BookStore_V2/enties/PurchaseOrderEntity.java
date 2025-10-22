@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+ 
 import java.util.List;
 
 @Entity(name = "import_invoice")
@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PurchaseOrderEntity {
+public class PurchaseOrderEntity extends BaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -34,8 +34,7 @@ public class PurchaseOrderEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_code", referencedColumnName = "employee_code")

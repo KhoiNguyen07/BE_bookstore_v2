@@ -5,14 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.time.LocalDateTime;
 
 @Entity(name = "return_exchange")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReturnOrderEntity {
+public class ReturnOrderEntity extends BaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -26,8 +25,7 @@ public class ReturnOrderEntity {
     @Column(name = "status")
     private Boolean status;
 
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_code", referencedColumnName = "order_code")
