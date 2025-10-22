@@ -1,23 +1,30 @@
 package com.devsoga.BookStore_V2.services;
 
 
+import java.text.ParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 import org.springframework.stereotype.Service;
 
 import com.devsoga.BookStore_V2.enties.AccountEntity;
+import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSObject;
 import com.nimbusds.jose.Payload;
 import com.nimbusds.jose.crypto.MACSigner;
+import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
+
+import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class JwtService {
 
-    private String secretKey = "9810b36ee10ee6a41ab2d4618b20f79e7896f53f8455addc487541fcbf00c955";
+    @Value("${JWT_SECRET}")
+    private String secretKey;
 
 
     public String generateAccessToken(AccountEntity account) {
@@ -72,4 +79,39 @@ public class JwtService {
 
         return jwsObject.serialize();
     }
+
+
+     public boolean verifyToken(String token) throws ParseException, JOSEException {
+        try {
+            // Parse token
+            SignedJWT signedJWT = SignedJWT.parse(token);
+
+            // Kiểm tra thời hạn token
+            Date expirationTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+            if (expirationTime.before(new Date())) {
+                System.out.println("Token expired");
+                return false;
+            }
+
+            // Xác minh chữ ký
+            boolean isValid = signedJWT.verify(new MACVerifier(secretKey));
+            if (!isValid) {
+                System.out.println("Invalid signature");
+            }
+            return isValid;
+
+        } catch (ParseException e) {
+            System.out.println("Invalid token format: " + e.getMessage());
+            return false;
+        } catch (JOSEException e) {
+            System.out.println("Token verification error: " + e.getMessage());
+            return false;
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
+            return false;
+        }
+
+        
+    }
+
 }

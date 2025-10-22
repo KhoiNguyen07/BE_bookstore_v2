@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `product` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `product_code` VARCHAR(50) UNIQUE NOT NULL,
     `product_name` VARCHAR(255),
-    `description` VARCHAR(255),
+    `description` TEXT,
     `image` VARCHAR(255),
     `status` BOOLEAN DEFAULT TRUE,
     `category_code` VARCHAR(50),
