@@ -1,0 +1,43 @@
+package com.devsoga.BookStore_V2.enties;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+@Entity(name = "price_history")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class PriceHistoryEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name = "price_history_code")
+    private String priceHistoryCode;
+
+    @Column(name = "selling_price")
+    private BigDecimal sellingPrice;
+
+    @Column(name = "status")
+    private Boolean status;
+
+    @Column(name = "created_date")
+    private LocalDateTime createdDate;
+
+    @Column(name = "end_date")
+    private LocalDateTime endDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_code", referencedColumnName = "product_code")
+    private ProductEntity productEntity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "import_invoice_detail_code", referencedColumnName = "import_invoice_detail_code")
+    private PurchaseOrderDetailEntity importInvoiceDetailEntity;
+}
