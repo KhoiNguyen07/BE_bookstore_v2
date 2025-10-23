@@ -33,7 +33,7 @@ public class AccountService {
         // This is a placeholder implementation
         List<AccountEntity> listAccount = accountRepository.findByUsername(username);
 
-        if (listAccount.size() > 0) {
+        if (!listAccount.isEmpty()) {
             AccountEntity acct = listAccount.get(0);
             AccountRespone dto = new AccountRespone();
             dto.setAccountCode(acct.getAccountCode());
