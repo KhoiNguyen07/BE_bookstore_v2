@@ -1,11 +1,8 @@
 package com.devsoga.BookStore_V2.repositories;
 
-import java.util.Optional;
-
+import com.devsoga.BookStore_V2.enties.CustomerEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.devsoga.BookStore_V2.enties.CustomerEntity;
-
-public interface CustomerRepository extends JpaRepository<CustomerEntity, Integer> {
-	 Optional<CustomerEntity> findByCustomerCode(String cCustomerCode);
+public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> {
+    // Khi cần mới bổ sung các finder cụ thể (email/phone/username) dựa theo field thật trong entity
 }
