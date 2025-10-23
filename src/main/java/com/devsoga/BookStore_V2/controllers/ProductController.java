@@ -33,12 +33,3 @@ public class ProductController {
 //    public BaseRespone getProductByProductCode(@PathVariable("productCode") String productCode) {
 //        return productService.getProductByProductCode(productCode);
 //    }
-
-    // GET /api/products/{productCode} - get single product by code
-//    @GetMapping("/{productCode}")
-//    public BaseRespone getProductByProductCode(@PathVariable("productCode") String productCode) {
-//        return productService.getProductByProductCode(productCode);
-//    }
-
-
-}
