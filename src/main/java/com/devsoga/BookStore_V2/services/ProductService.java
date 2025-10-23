@@ -4,11 +4,13 @@ import com.devsoga.BookStore_V2.enties.ProductEntity;
 import com.devsoga.BookStore_V2.dtos.responses.ProductRespone;
 import com.devsoga.BookStore_V2.payload.respone.BaseRespone;
 import com.devsoga.BookStore_V2.repositories.ProductRepository;
+import com.devsoga.BookStore_V2.repositories.PriceHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +19,9 @@ public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private PriceHistoryRepository priceHistoryRepository;
 
     @Value("${app.base-url:}")
     private String appBaseUrl; // optional, e.g. http://localhost:8080
@@ -77,6 +82,12 @@ public class ProductService {
             }
         }
         r.setImage(img);
+        
+        // Fetch latest active price from price_history
+        BigDecimal price = priceHistoryRepository.findLatestActivePriceByProductCode(p.getProductCode())
+                .orElse(BigDecimal.ZERO);
+        r.setPrice(price);
+        
         try {
             if (p.getProductCategoryEntity() != null) {
                 r.setCategoryCode(p.getProductCategoryEntity().getCategoryCode());

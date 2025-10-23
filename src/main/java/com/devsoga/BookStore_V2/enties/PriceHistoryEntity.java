@@ -21,8 +21,8 @@ public class PriceHistoryEntity extends BaseAuditable {
     @Column(name = "price_history_code")
     private String priceHistoryCode;
 
-    @Column(name = "selling_price")
-    private BigDecimal sellingPrice;
+    @Column(name = "unit_price")
+    private BigDecimal unitPrice;
 
     @Column(name = "status")
     private Boolean status;
