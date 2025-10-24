@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "wishlist")
+@Entity(name = "favorite")
 @Getter
 @Setter
 @NoArgsConstructor
