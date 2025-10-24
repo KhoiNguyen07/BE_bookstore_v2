@@ -1,7 +1,8 @@
 package com.devsoga.BookStore_V2.repositories;
 
-import com.devsoga.BookStore_V2.enties.CartEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CartRepository extends JpaRepository<CartEntity, Long> {
+import com.devsoga.BookStore_V2.enties.CartEntity;
+
+public interface CartRepository extends JpaRepository<CartEntity, Integer> {
 }

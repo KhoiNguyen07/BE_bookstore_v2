@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PurchaseOrderDetailService extends BaseCrudService<PurchaseOrderDetailEntity, Long> {
+public class PurchaseOrderDetailService extends BaseCrudService<PurchaseOrderDetailEntity, Integer> {
     private final PurchaseOrderDetailRepository repository;
-    @Override protected JpaRepository<PurchaseOrderDetailEntity, Long> repo() { return repository; }
+    @Override protected JpaRepository<PurchaseOrderDetailEntity, Integer> repo() { return repository; }
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CartService extends BaseCrudService<CartEntity, Long> {
+public class CartService extends BaseCrudService<CartEntity, Integer> {
     private final CartRepository repository;
-    @Override protected JpaRepository<CartEntity, Long> repo() { return repository; }
+    @Override protected JpaRepository<CartEntity, Integer> repo() { return repository; }
 }

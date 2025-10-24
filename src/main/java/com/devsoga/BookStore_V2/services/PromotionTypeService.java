@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PromotionTypeService extends BaseCrudService<PromotionTypeEntity, Long> {
+public class PromotionTypeService extends BaseCrudService<PromotionTypeEntity, Integer> {
     private final PromotionTypeRepository repository;
-    @Override protected JpaRepository<PromotionTypeEntity, Long> repo() { return repository; }
+    @Override protected JpaRepository<PromotionTypeEntity, Integer> repo() { return repository; }
 }
