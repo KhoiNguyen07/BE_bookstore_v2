@@ -27,8 +27,8 @@ public class CustomerEntity extends BaseAuditable {
     @Column(name = "customer_name")
     private String customerName;
 
-    @Column(name = "loyalty_points")
-    private Double loyaltyPoints;
+    @Column(name = "points")
+    private Double points;
 
     @Column(name = "address")
     private String address;

@@ -35,7 +35,17 @@ public class AuthenticationService {
         dto.setAccountCode(account.getAccountCode());
         dto.setUsername(account.getUsername());
         dto.setEmail(account.getEmail());
-        dto.setRoleCode(account.getRoleEntity() != null ? account.getRoleEntity().getRoleCode() : null);
+        String roleCode = account.getRoleEntity() != null ? account.getRoleEntity().getRoleCode() : null;
+        dto.setRoleCode(roleCode);
+        if ("USER".equalsIgnoreCase(roleCode)) {
+            String customerCode = null;
+            if (account.getCustomerList() != null && !account.getCustomerList().isEmpty()) {
+                customerCode = account.getCustomerList().get(0).getCustomerCode();
+            }
+            dto.setCustomerCode(customerCode);
+        } else {
+            dto.setCustomerCode(null);
+        }
         dto.setAccessToken(accessToken);
         dto.setRefreshToken(refreshToken);
 

@@ -24,6 +24,12 @@ public class AccountService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private com.devsoga.BookStore_V2.repositories.CustomerRepository customerRepository;
+
+    @Autowired
+    private com.devsoga.BookStore_V2.repositories.EmployeeRepository employeeRepository;
 
 
 
@@ -39,7 +45,18 @@ public class AccountService {
             dto.setAccountCode(acct.getAccountCode());
             dto.setUsername(acct.getUsername());
             dto.setEmail(acct.getEmail());
-            dto.setRoleCode(acct.getRoleEntity() != null ? acct.getRoleEntity().getRoleCode() : null);
+            String roleCode = acct.getRoleEntity() != null ? acct.getRoleEntity().getRoleCode() : null;
+            dto.setRoleCode(roleCode);
+            // only return customerCode when role is USER
+            if ("USER".equalsIgnoreCase(roleCode)) {
+                String customerCode = null;
+                if (acct.getCustomerList() != null && !acct.getCustomerList().isEmpty()) {
+                    customerCode = acct.getCustomerList().get(0).getCustomerCode();
+                }
+                dto.setCustomerCode(customerCode);
+            } else {
+                dto.setCustomerCode(null);
+            }
 
             response.setStatusCode(200);
             response.setMessage("Account found");
@@ -84,6 +101,30 @@ public class AccountService {
         RoleEntity role = roleRepository.findByRoleCode(roleCode).orElse(null);
         accountEntity.setRoleEntity(role);
         AccountEntity saved = accountRepository.save(accountEntity);
+
+        // create related customer or employee depending on role
+        if ("USER".equalsIgnoreCase(roleCode)) {
+            // create customer
+            com.devsoga.BookStore_V2.enties.CustomerEntity cust = new com.devsoga.BookStore_V2.enties.CustomerEntity();
+            // generate customer code
+            long epoch = System.currentTimeMillis() / 1000L;
+            int rnd = (int) (Math.random() * 900) + 100;
+            String custCode = "CUS_" + epoch + rnd;
+            cust.setCustomerCode(custCode);
+            cust.setCustomerName(request.getUsername());
+            cust.setAccountEntity(saved);
+            customerRepository.save(cust);
+        } else {
+            // create employee for other roles
+            com.devsoga.BookStore_V2.enties.EmployeeEntity emp = new com.devsoga.BookStore_V2.enties.EmployeeEntity();
+            long epoch2 = System.currentTimeMillis() / 1000L;
+            int rnd2 = (int) (Math.random() * 900) + 100;
+            String empCode = "EMP_" + epoch2 + rnd2;
+            emp.setEmployeeCode(empCode);
+            emp.setEmployeeName(request.getUsername());
+            emp.setAccountEntity(saved);
+            employeeRepository.save(emp);
+        }
 
         BaseRespone resp = getAccountDetails(saved.getUsername());
         // override message and status for creation

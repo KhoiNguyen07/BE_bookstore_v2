@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class AccountRespone {
     private String accountCode;
+    private String customerCode;
     private String username;
     private String email;
     private String roleCode;
