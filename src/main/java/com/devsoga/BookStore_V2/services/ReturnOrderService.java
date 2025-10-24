@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ReturnOrderService extends BaseCrudService<ReturnOrderEntity, Long> {
+public class ReturnOrderService extends BaseCrudService<ReturnOrderEntity, Integer> {
     private final ReturnOrderRepository repository;
-    @Override protected JpaRepository<ReturnOrderEntity, Long> repo() { return repository; }
+    @Override protected JpaRepository<ReturnOrderEntity, Integer> repo() { return repository; }
 }

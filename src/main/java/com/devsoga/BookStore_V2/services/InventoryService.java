@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class InventoryService extends BaseCrudService<InventoryEntity, Long> {
+public class InventoryService extends BaseCrudService<InventoryEntity, Integer> {
     private final InventoryRepository repository;
-    @Override protected JpaRepository<InventoryEntity, Long> repo() { return repository; }
+    @Override protected JpaRepository<InventoryEntity, Integer> repo() { return repository; }
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class EmployeeService extends BaseCrudService<EmployeeEntity, Long> {
+public class EmployeeService extends BaseCrudService<EmployeeEntity, Integer> {
     private final EmployeeRepository repository;
-    @Override protected JpaRepository<EmployeeEntity, Long> repo() { return repository; }
+    @Override protected JpaRepository<EmployeeEntity, Integer> repo() { return repository; }
 }

@@ -6,11 +6,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
+public interface CommentRepository extends JpaRepository<CommentEntity, Integer> {
 
-    // Lấy danh sách bình luận theo sản phẩm (hữu ích cho trang chi tiết SP)
-    Page<CommentEntity> findByProductEntity(ProductEntity product, Pageable pageable);
+    Page<CommentEntity> findByOrderDetailEntity_ProductEntity(ProductEntity product, Pageable pageable);
 
-    // Đếm số bình luận của 1 sản phẩm
-    long countByProductEntity(ProductEntity product);
+    Integer countByOrderDetailEntity_ProductEntity(ProductEntity product);
+
+    Page<CommentEntity> findByOrderDetailEntity_ProductEntity_ProductCode(String productCode, Pageable pageable);
 }

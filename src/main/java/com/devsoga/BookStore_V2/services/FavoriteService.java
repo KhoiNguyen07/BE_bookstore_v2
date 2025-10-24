@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class FavoriteService extends BaseCrudService<FavoriteEntity, Long> {
+public class FavoriteService extends BaseCrudService<FavoriteEntity, Integer> {
     private final FavoriteRepository repository;
-    @Override protected JpaRepository<FavoriteEntity, Long> repo() { return repository; }
+    @Override protected JpaRepository<FavoriteEntity, Integer> repo() { return repository; }
 }

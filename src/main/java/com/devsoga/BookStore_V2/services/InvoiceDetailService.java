@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class InvoiceDetailService extends BaseCrudService<InvoiceDetailEntity, Long> {
+public class InvoiceDetailService extends BaseCrudService<InvoiceDetailEntity, Integer> {
     private final InvoiceDetailRepository repository;
-    @Override protected JpaRepository<InvoiceDetailEntity, Long> repo() { return repository; }
+    @Override protected JpaRepository<InvoiceDetailEntity, Integer> repo() { return repository; }
 }
