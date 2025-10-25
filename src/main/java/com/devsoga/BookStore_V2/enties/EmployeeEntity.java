@@ -24,13 +24,15 @@ public class EmployeeEntity extends BaseAuditable {
     @Column(name = "employee_name")
     private String employeeName;
 
-    @Column(name = "birth_date")
-    private LocalDate birthDate;
+	/*
+	 * @Column(name = "birth_date") private LocalDate birthDate;
+	 */
 
     @Column(name = "gender")
     private Boolean gender;
 
-    
+    @Column(name = "date_of_birth") 
+    private LocalDate dateOfBirth;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_code", referencedColumnName = "account_code")

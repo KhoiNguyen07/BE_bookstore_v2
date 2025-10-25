@@ -18,7 +18,7 @@ public class SupplierEntity extends BaseAuditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "supplier_code")
+    @Column(name = "supplier_code", nullable = false, unique = true, length = 50)
     private String supplierCode;
 
     @Column(name = "supplier_name")

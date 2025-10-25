@@ -27,8 +27,6 @@ public class PriceHistoryEntity extends BaseAuditable {
     @Column(name = "status")
     private Boolean status;
 
-    
-
     @Column(name = "end_date")
     private LocalDateTime endDate;
 

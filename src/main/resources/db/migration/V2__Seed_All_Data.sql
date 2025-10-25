@@ -43,8 +43,8 @@ INSERT INTO customer (customer_code, customer_name, points, address, customer_ty
 -- =========================
 -- SUPPLIER
 -- =========================
-INSERT INTO supplier (supplier_code, supplier_name, address, phone_number, email)
-VALUES ('NCC01', 'NXB Tổng Hợp', '123 Đường Sách, HN', '0912345678', 'nxb@example.com');
+INSERT INTO supplier (supplier_code, supplier_name, address, phone_number, email,status)
+VALUES ('NCC01', 'NXB Tổng Hợp', '123 Đường Sách, HN', '0912345678', 'nxb@example.com',);
 
 -- =========================
 -- PRODUCT CATEGORY (10 CATEGORIES)
